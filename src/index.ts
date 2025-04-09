@@ -11,8 +11,8 @@ const app = new Elysia()
   .get("/users", ({ user }) => user.data)
   .get(
     "/users/:id",
-    ({ user, params: { id } }) => {
-      return user.data[id];
+    ({ user, params: { id }, error }) => {
+      return user.data[id] ?? error(404, "No users found");
     },
     {
       params: t.Object({
