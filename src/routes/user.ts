@@ -22,6 +22,12 @@ class User {
 
 export const user = new Elysia({ prefix: "users" })
   .decorate("user", new User())
+  .onTransform(function log({ body, params, path, request: { method } }) {
+    console.log(`${method} ${path}`, {
+      body,
+      params,
+    });
+  })
   .get("/", ({ user }) => user.data)
   .put("/", ({ user, body: { data } }) => user.add(data), {
     body: t.Object({
@@ -47,9 +53,6 @@ export const user = new Elysia({ prefix: "users" })
       return error(402);
     },
     {
-      params: t.Object({
-        id: t.Number(),
-      }),
       body: t.Object({
         data: t.String(),
       }),
