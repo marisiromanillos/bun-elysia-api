@@ -28,29 +28,18 @@ export const user = new Elysia({ prefix: "users" })
       data: t.String(),
     }),
   })
-  .get(
-    "//:id",
-    ({ user, params: { id }, error }) => {
-      return user.data[id] ?? error(404, "User nout found");
-    },
-    {
-      params: t.Object({
-        id: t.Number(),
-      }),
-    }
-  )
-  .delete(
-    "/:id",
-    ({ user, params: { id }, error }) => {
-      if (id in user.data) return user.remove(id);
-      return error(402);
-    },
-    {
-      params: t.Object({
-        id: t.Number(),
-      }),
-    }
-  )
+  .guard({
+    params: t.Object({
+      id: t.Number(),
+    }),
+  })
+  .get("/:id", ({ user, params: { id }, error }) => {
+    return user.data[id] ?? error(404, "User nout found");
+  })
+  .delete("/:id", ({ user, params: { id }, error }) => {
+    if (id in user.data) return user.remove(id);
+    return error(402);
+  })
   .patch(
     "/:id",
     ({ user, params: { id }, body: { data }, error }) => {
