@@ -1,21 +1,34 @@
 import { Elysia, t } from "elysia";
 
-class Note {
-  constructor(public data: string[] = ["Marisi"]) {}
+export class Note {
+  constructor(public data: string[] = ["This is my note"]) {}
 
-  // PUT
-  add(note: string) {
+  /**
+   * Adds a new note string to the end of the data array.
+   * @param note The string note to add.
+   * @returns The entire updated data array.
+   */
+  add(note: string): string[] {
     this.data.push(note);
     return this.data;
   }
 
-  // DELETE
-  remove(index: number) {
+  /**
+   * Removes one note at the specified index.
+   * @param index The index of the note to remove.
+   * @returns An array containing the removed note string (or empty if index is invalid).
+   */
+  remove(index: number): string[] {
     return this.data.splice(index, 1);
   }
 
-  // PATCH
-  update(index: number, note: string) {
+  /**
+   * Updates the note string at the specified index.
+   * @param index The index of the note to update.
+   * @param note The new string note.
+   * @returns The new note string that was assigned.
+   */
+  update(index: number, note: string): string {
     return (this.data[index] = note);
   }
 }
